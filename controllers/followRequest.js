@@ -1,6 +1,5 @@
 const models = require('../models')
-const faker = require('faker')
-const { uniqueNamesGenerator, Config, names } = require('unique-names-generator');
+const { uniqueNamesGenerator, names } = require('unique-names-generator');
 const customResponse = require('../response/customResponse')
 const followRequest = async (req, res) => {
     try {
@@ -38,9 +37,8 @@ const getFollowRequests = async (req, res) => {
     try {
         const followRequests = await models.User.findOne({
             where: {
-                name: req.params.name
+                name: req.params.userName
             }
-
         })
         const follow = await models.FollowRequest.findAll({
             where: {
@@ -108,16 +106,16 @@ const declineFollowRequest = async (req, res) => {
     try {
         const followedUser = await models.User.findOne({
             where: {
-                name: req.params.followingName
+                name: req.body.followingName
             }
         })
         console.log(followedUser)
         const user = await models.User.findOne({
             where: {
-                name: req.params.userName
+                name: req.body.userName
             }
         })
-        console.log(user)
+        console.log(user.id,followedUser.id)
         const request = await models.FollowRequest.destroy({
             where: {
                 userId: user.id,

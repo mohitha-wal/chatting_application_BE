@@ -5,13 +5,15 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./controllers/users');
 const {getId , addMessage} = require('./controllers/messages')
-const router = require('./router');
+const decodeToken=require('./tokenVerification/tokenVerification')
+const router = require('./routes/router');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 app.use(bodyParser.json());
 app.use(cors());
+//app.use(decodeToken)
 app.use('/',router);
 var roomName = ''
 
